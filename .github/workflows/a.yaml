@@ -17,3 +17,6 @@ jobs:
         run: |
           echo "::set-output name=image::${SET_NAME:-${{ github.event.organization.login }}/${{ github.event.repository.name }}}"
       - uses: hmarr/debug-action@v2
+      - run: |
+          id
+          sudo -i id
