@@ -31,8 +31,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
+          flavor:
+            suffix=-foo
           images: hello
           tags: |
             type=semver,pattern=v{{version}},value=${{ steps.set.outputs.semver }}
-            type=semver,pattern=v{{version}},value=${{ steps.set.outputs.semver }},suffix=${{ matrix.suffix }}${{ steps.set.outputs.rid }}
+            type=semver,pattern=v{{version}},value=${{ steps.set.outputs.semver }},suffix=-foo${{ steps.set.outputs.rid }}
             type=raw,value=${{ steps.set.outputs.latestFlavor }},suffix=
