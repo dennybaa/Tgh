@@ -33,8 +33,9 @@ jobs:
         with:
           flavor:
             suffix=-foo
+            latest=fale
           images: hello
           tags: |
             type=semver,pattern=v{{version}},value=${{ steps.set.outputs.semver }}
             type=semver,pattern=v{{version}},value=${{ steps.set.outputs.semver }},suffix=-foo${{ steps.set.outputs.rid }}
-            type=raw,value=${{ steps.set.outputs.latestFlavor }},suffix=
+            type=raw,value=latest,suffix=
