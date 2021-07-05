@@ -33,6 +33,6 @@ jobs:
         with:
           images: hello
           tags: |
-            type=semver,pattern={{version}},value=${{ steps.set.outputs.semver }}
-            type=semver,pattern={{version}},value=${{ steps.set.outputs.semver }},suffix=${{ matrix.suffix }}${{ steps.set.outputs.rid }}
+            type=semver,pattern=v{{version}},value=${{ steps.set.outputs.semver }}
+            type=semver,pattern=v{{version}},value=${{ steps.set.outputs.semver }},suffix=${{ matrix.suffix }}${{ steps.set.outputs.rid }}
             type=raw,value=${{ steps.set.outputs.latestFlavor }},suffix=
