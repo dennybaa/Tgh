@@ -26,5 +26,5 @@ jobs:
         with:
           images: ${{ steps.set.outputs.image }}
           tags: |
-            type=semver,pattern=v{{version}},value=${{ steps.set.outputs.tag }},priority=910
+            type=semver,pattern=v{{version}},value=v${{ steps.set.outputs.tag }},priority=910
             type=semver,pattern=v{{version}},value=v1.2.3
