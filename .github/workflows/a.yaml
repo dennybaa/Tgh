@@ -31,9 +31,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          flavor:
+          flavor: |
             suffix=-foo
-            latest=fale
+            latest=false
           images: hello
           tags: |
             type=semver,pattern=v{{version}},value=${{ steps.set.outputs.semver }}
