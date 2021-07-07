@@ -12,30 +12,10 @@ on:
 jobs:
   pre:
     runs-on: ubuntu-latest
-    outputs:
-      image: ${{ steps.set.outputs.image }}
+    container:
+      image: dysnix/kubectl:v1.19-gcloud
     steps:
       -
-        uses: actions/github-script@v4
-        id: set
-        with:
-          script: |
-            // Split tag into a semver and the release id v1.2.3-r1 => v1.2.3 and -r1
-            const match = context.ref.match(/^refs\/tags\/(.*)(-r\d+)$/);
-            if (match) {
-              core.setOutput('semver', match[1]);
-              core.setOutput('rid', match[2]);
-            }
-      -
-        name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          flavor: |
-            suffix=-foo
-            latest=false
-          images: hello
-          tags: |
-            type=semver,pattern=v{{version}},value=${{ steps.set.outputs.semver }}
-            type=semver,pattern=v{{version}},value=${{ steps.set.outputs.semver }},suffix=-foo${{ steps.set.outputs.rid }}
-            type=raw,value=latest,suffix=
+        run: |
+          echo "id: $(id)"
+          echo "HOME: $HOME"
