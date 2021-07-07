@@ -12,8 +12,8 @@ on:
 jobs:
   pre:
     runs-on: ubuntu-latest
-    container:
-      image: dysnix/kubectl:v1.19-gcloud
+    # container:
+    #   image: dysnix/kubectl:v1.19-gcloud
     steps:
       -
         run: |
