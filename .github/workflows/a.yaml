@@ -17,5 +17,8 @@ jobs:
     steps:
       -
         run: |
-          echo "id: $(id)"
-          echo "HOME: $HOME"
+          echo "/hello" >> $GITHUB_PATH
+          cat $GITHUB_PATH
+      -
+        run: |
+          cat $GITHUB_PATH | grep hello
