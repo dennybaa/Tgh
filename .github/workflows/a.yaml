@@ -17,8 +17,15 @@ jobs:
     steps:
       -
         run: |
-          echo "/hello" >> $GITHUB_PATH
+          echo $GITHUB_PATH
+          echo "$(pwd)/hello" >> $GITHUB_PATH
           cat $GITHUB_PATH
+          mkdir -p hello
+          echo 'echo hello' > hello/hello
+          chmod 755 hello/hello
+          hello || :
+
       -
         run: |
-          cat $GITHUB_PATH | grep hello
+          echo $GITHUB_PATH
+          cat $GITHUB_PATH | grep hello || :
