@@ -1,0 +1,11 @@
+name: dispatch
+
+on:
+  repository_dispatch:
+    types: [create]
+
+jobs:
+  do:
+    runs-on: ubuntu-latest
+    steps:
+      - echo Hello world
