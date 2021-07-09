@@ -1,8 +1,11 @@
 name: dispatch
 
 on:
-  repository_dispatch:
-    types: [create]
+  workflow_dispatch:
+    inputs:
+      type:
+        desctiption: "Dispatch type"
+        default: ""
 
 jobs:
   do:
