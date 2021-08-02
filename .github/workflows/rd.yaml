@@ -1,14 +1,9 @@
-name: dispatch
-
+name: dispatch2
 on:
   workflow_dispatch:
-    inputs:
-      type:
-        desctiption: "Dispatch type"
-        default: ""
 
 jobs:
   do:
     runs-on: ubuntu-latest
     steps:
-      - run: echo Hello world
+      - echo Hello world INPUTLESS!

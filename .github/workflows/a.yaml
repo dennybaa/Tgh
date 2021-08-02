@@ -1,31 +1,23 @@
-name: Build and Publish
+name: dispatch1
 on:
-  push:
-    branches:
-      - '**'
-    tags:
-      - '**'
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Hello message'
+        required: true
+  # push:
+  #   branches:
+  #     - '**'
+  #   tags:
+  #     - '**'
 
-# env:
-  ## SET_NAME - overrides the docker image name (name is repo name with docker- prefix stripped)
 
 jobs:
   pre:
     runs-on: ubuntu-latest
-    # container:
-    #   image: dysnix/kubectl:v1.19-gcloud
     steps:
+      - uses: hmarr/debug-action@v2
+      - uses: actions/checkout@v2
       -
-        run: |
-          echo $GITHUB_PATH
-          echo "$(pwd)/hello" >> $GITHUB_PATH
-          cat $GITHUB_PATH
-          mkdir -p hello
-          echo 'echo hello' > hello/hello
-          chmod 755 hello/hello
-          hello || :
-
-      -
-        run: |
-          echo $GITHUB_PATH
-          cat $GITHUB_PATH | grep hello || :
+        run: echo
+          echo ${{ github.event.inputs.message }}
