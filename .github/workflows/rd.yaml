@@ -6,4 +6,4 @@ jobs:
   do:
     runs-on: ubuntu-latest
     steps:
-      - echo Hello world INPUTLESS!
+      - run: echo Hello world INPUTLESS!
