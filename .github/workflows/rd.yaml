@@ -79,7 +79,7 @@ jobs:
       -
         uses: actions/github-script@v4
         id: set
-        if: steps.latest.outputs.older == 'true'
+        if: steps.latest.outputs.older == 'false'
         with:
           script: |
             core.setOutput('latestValue', '${{ matrix.flavor }}' !== 'default' ?
@@ -98,5 +98,5 @@ jobs:
           tags: |
             type=semver,pattern=v{{version}},value=${{ needs.setup.outputs.version }}
             type=semver,pattern=v{{version}},value=${{ needs.setup.outputs.version }},suffix=${{ matrix.suffix }}-${{ needs.setup.outputs.release_id }}
-            type=semver,pattern=v{{major}}.{{minor}},value=${{ needs.setup.outputs.version }},enable=${{ steps.findMinor.outputs.older == 'true' }}
+            type=semver,pattern=v{{major}}.{{minor}},value=${{ needs.setup.outputs.version }},enable=${{ steps.findMinor.outputs.older == 'false' }}
             type=raw,value=${{ steps.set.outputs.latestValue }},suffix=
