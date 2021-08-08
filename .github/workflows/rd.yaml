@@ -88,7 +88,7 @@ jobs:
             // Split tag into semver and release id v1.2.3-r1 => v1.2.3 and -r1
             const match = '${{ github.ref }}'.match(/(.*)(-r\d+)$/)
             if (match && match.length > 2) { 
-              core.setOutput('release_id', match[2]) 
+              core.setOutput('release', match[2]) 
             }
 
             // Specify latest or flavor
@@ -107,4 +107,4 @@ jobs:
             latest=auto
             suffix=${{ matrix.suffix }}
           tags: |
-            type=semver,pattern=v{{version}},value=${{ steps.set.outputs.version }}
+            type=semver,pattern=v{{version}},value=${{ steps.set.outputs.version }},suffix=${{ matrix.suffix }}${{ steps.set.outputs.release }}
