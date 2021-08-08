@@ -100,9 +100,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ needs.pre.outputs.image }}
+          images: ${{ needs.setup.outputs.image }}
           flavor: |
-            latest=false
+            latest=auto
             suffix=${{ matrix.suffix }}
           tags: |
             type=semver,pattern=v{{version}},value=${{ needs.setup.outputs.version }}
