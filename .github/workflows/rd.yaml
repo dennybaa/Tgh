@@ -94,8 +94,9 @@ jobs:
           flavor: |
             latest=false
             suffix=${{ matrix.suffix }}
+          ## Note: force-push of v1.2.3-r* tags with lower release id overwrites v1.2.3 image!
           tags: |
+            type=semver,pattern=v{{version}},value=${{ needs.setup.outputs.version }}
             type=semver,pattern=v{{version}},value=${{ needs.setup.outputs.version }},suffix=${{ matrix.suffix }}-${{ needs.setup.outputs.release_id }}
-            type=semver,pattern=v{{version}},value=${{ needs.setup.outputs.version }},enable=${{ steps.find.outputs.older == 'false' }}
             type=semver,pattern=v{{major}}.{{minor}},value=${{ needs.setup.outputs.version }},enable=${{ steps.findMinor.outputs.older == 'false' }}
             type=raw,value=${{ steps.set.outputs.latestValue }},suffix=
