@@ -39,7 +39,7 @@ jobs:
         id: kubever
         uses: dysnix/ws-action-parse-semver@upgrade
         with:
-          string: '${{ github.event.inputs.fullversion }}'
+          string: '${{ github.event.inputs.version }}'
           extractor_regex: '${{ env.VERSION_REGEX }}'
           extractor_group: 2
       - name: Ouptuts
