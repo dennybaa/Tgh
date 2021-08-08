@@ -21,7 +21,7 @@ jobs:
     outputs:
       image: ${{ steps.set.outputs.image }}
       tag: v${{ steps.kubever.outputs.fullversion }}
-      version: ${{ steps.kubever.outputs.fullversion }}
+      version: ${{ steps.kubever.outputs.version }}
       minor_version: ${{ steps.kubever.outputs.minorversion }}
       ## Note!: prerelease (-r\d+) is used as the release id
       release_id: ${{ steps.kubever.outputs.prerelease }}
