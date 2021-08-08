@@ -1,9 +1,111 @@
 name: dispatch2
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - '**'
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-*'
+
+defaults:
+  run:
+    shell: bash -leo pipefail {0}
+
+env:
+  VERSION_REGEX: ^(refs\/tags\/)?v([0-9]+.[0-9]+.[0-9]+.*)$
+  # DOCKER_IMAGE - overrides the docker image name (name is repo name with docker- prefix stripped)
 
 jobs:
-  do:
+  setup:
+    name: Setup
     runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.set.outputs.image }}
+      tag: v${{ steps.kubever.outputs.version }}
+      version: ${{ steps.kubever.outputs.version }}
+      minor_version: ${{ steps.kubever.outputs.minorversion }}
+      push: ${{ steps.kubever.outputs.failed == 'false' }}
     steps:
-      - run: echo Hello world INPUTLESS!
+      -
+        uses: actions/github-script@v4
+        id: set
+        with:
+          script: |
+            const repo = '${{ github.event.repository.name }}'.toLowerCase().replace(/^docker-/, '')
+            const versionRegex = new RegExp('${{ env.VERSION_REGEX }}')
+            // docker image
+            core.setOutput('image', '${{ env.DOCKER_IMAGE }}' ?
+              '${{ env.DOCKER_IMAGE }}' :
+              `${{ github.event.organization.login }}/${ repo }`
+            )
+      -
+        name: Kubectl Version
+        id: kubever
+        uses: dysnix/ws-action-parse-semver@upgrade
+        with:
+          string: '${{ github.ref }}'
+          extractor_regex: '${{ env.VERSION_REGEX }}'
+          extractor_group: 2
+
+  build:
+    name: Build Image
+    runs-on: ubuntu-latest
+    needs: [setup]
+
+    strategy:
+      matrix:
+        flavor: [default, gcloud]
+        include:
+          - flavor: default
+            image: alpine
+          - flavor: gcloud
+            image: google/cloud-sdk:alpine
+            suffix: -gcloud
+
+    steps:
+      - uses: actions/checkout@v2
+      -
+        uses: dysnix/find-latest-tag@v1
+        id: latest
+        with:
+          compared-to-tag: ${{ github.ref }}
+          repository: ${{ github.repository }}
+      -
+        uses: dysnix/find-latest-tag@v1
+        id: latestMinor
+        with:
+          regex: ${{ needs.setup.outputs.minor_version }}
+          compared-to-tag: ${{ github.ref }}
+          repository: ${{ github.repository }}
+      -
+        uses: actions/github-script@v4
+        id: set
+        if: needs.setup.outputs.version !== ''
+        with:
+          script: |
+            // Split tag into semver and release id v1.2.3-r1 => v1.2.3 and -r1
+            const match = '${{ github.ref }}'.match(/(.*)(-r\d+)$/)
+            if (match && match.length > 2) { 
+              core.setOutput('release_id', match[2]) 
+            }
+
+            // Specify latest or flavor
+            if ( '${{ steps.latest.outputs.older }}' == 'false' ) {
+              core.setOutput('latestFlavor',
+                '${{ matrix.flavor }}' !== 'default' ? '${{ matrix.flavor }}' : 'latest'
+              );
+            }
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ needs.pre.outputs.image }}
+          flavor: |
+            latest=auto
+            suffix=${{ matrix.suffix }}
+          tags: |
+            type=semver,pattern=v{{version}},value=${{ steps.set.outputs.version }}
+            type=semver,pattern=v{{version}},value=${{ steps.set.outputs.version }},suffix=${{ matrix.suffix }}${{ steps.set.outputs.release_id }}
+            type=semver,pattern=v{{major}}.{{minor}},value=${{ steps.set.outputs.version }},suffix=${{ matrix.suffix }},enable=${{ steps.latestMinor.outputs.older == 'false' }}
+            type=raw,value=${{ steps.set.outputs.latestFlavor }},suffix=
