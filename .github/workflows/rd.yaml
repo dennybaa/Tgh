@@ -46,6 +46,9 @@ jobs:
           string: '${{ github.ref }}'
           extractor_regex: '${{ env.VERSION_REGEX }}'
           extractor_group: 2
+      - name: aaa
+        run: |
+          echo '${{ toJSON(steps.kubever.outputs) }}'
 
   build:
     name: Build Image
