@@ -104,4 +104,4 @@ jobs:
             latest=auto
             suffix=${{ matrix.suffix }}
           tags: |
-            type=semver,pattern=v{{version}},value=${{ steps.set.outputs.fullversion }}
+            type=semver,pattern=v{{version}},value=${{ steps.set.outputs.version }}
