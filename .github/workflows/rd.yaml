@@ -105,6 +105,3 @@ jobs:
             suffix=${{ matrix.suffix }}
           tags: |
             type=semver,pattern=v{{version}},value=${{ steps.set.outputs.fullversion }}
-            type=semver,pattern=v{{version}},value=${{ steps.set.outputs.fullversion }},suffix=${{ matrix.suffix }}${{ steps.set.outputs.release_id }}
-            type=semver,pattern=v{{major}}.{{minor}},value=${{ steps.set.outputs.fullversion }},suffix=${{ matrix.suffix }},enable=${{ steps.latestMinor.outputs.older == 'false' }}
-            type=raw,value=${{ steps.set.outputs.latestFlavor }},suffix=
