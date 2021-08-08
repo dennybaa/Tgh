@@ -67,14 +67,14 @@ jobs:
         uses: dysnix/find-latest-tag@v1
         id: latest
         with:
-          compared-to-tag: ${{ github.ref }}
+          compared-to-tag: ${{ needs.setup.outputs.tag }}
           repository: ${{ github.repository }}
       -
         uses: dysnix/find-latest-tag@v1
         id: latestMinor
         with:
           regex: ${{ needs.setup.outputs.minor_version }}
-          compared-to-tag: ${{ github.ref }}
+          compared-to-tag: ${{ needs.setup.outputs.tag }}
           repository: ${{ github.repository }}
       -
         uses: actions/github-script@v4
