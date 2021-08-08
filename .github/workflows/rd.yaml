@@ -1,11 +1,10 @@
 name: dispatch2
 on:
-  push:
-    branches:
-      - '**'
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
-      - 'v[0-9]+.[0-9]+.[0-9]+-*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Input version (SemVer) tag of tagref to genarte images for'
+        required: false
 
 defaults:
   run:
@@ -43,10 +42,10 @@ jobs:
         id: kubever
         uses: dysnix/ws-action-parse-semver@upgrade
         with:
-          string: '${{ github.ref }}'
+          string: '${{ github.event.inputs.version }}'
           extractor_regex: '${{ env.VERSION_REGEX }}'
           extractor_group: 2
-      - name: aaa
+      - name: Ouptuts
         run: |
           echo '${{ toJSON(steps.kubever.outputs) }}'
 
@@ -83,13 +82,12 @@ jobs:
       -
         uses: actions/github-script@v4
         id: set
+        if: needs.setup.outputs.fullversion != ''
         with:
           script: |
             // Split tag into semver and release id v1.2.3-r1 => v1.2.3 and -r1
-            const match = '${{ github.ref }}'.match(/(.*)(-r\d+)$/)
-            if (match && match.length > 2) { 
-              core.setOutput('release', match[2]) 
-            }
+            const match = ${{ needs.setup.outputs.fullversion }}.match(/(.*)(-r\d+)$/)
+            if (match && match.length > 2) { core.setOutput('release', match[2]) }
 
             // Specify latest or flavor
             if ( '${{ steps.latest.outputs.older }}' == 'false' ) {
@@ -102,9 +100,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ needs.setup.outputs.image }}
+          images: ${{ needs.pre.outputs.image }}
           flavor: |
-            latest=auto
+            latest=false
             suffix=${{ matrix.suffix }}
           tags: |
-            type=semver,pattern=v{{version}},value=${{ steps.set.outputs.version }},suffix=${{ matrix.suffix }}${{ steps.set.outputs.release }}
+            type=semver,pattern=v{{version}},value=${{ needs.setup.outputs.version }}
+            type=semver,pattern=v{{version}},value=${{ needs.setup.outputs.version }},suffix=${{ matrix.suffix }}${{ steps.set.outputs.release }}
