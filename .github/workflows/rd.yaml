@@ -99,7 +99,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ needs.pre.outputs.image }}
+          images: ${{ needs.setup.outputs.image }}
           flavor: |
             latest=auto
             suffix=${{ matrix.suffix }}
