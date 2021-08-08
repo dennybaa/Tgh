@@ -80,7 +80,6 @@ jobs:
       -
         uses: actions/github-script@v4
         id: set
-        if: needs.setup.outputs.version !== ''
         with:
           script: |
             // Split tag into semver and release id v1.2.3-r1 => v1.2.3 and -r1
