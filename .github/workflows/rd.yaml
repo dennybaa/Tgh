@@ -20,8 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       image: ${{ steps.set.outputs.image }}
-      tag: v${{ steps.kubever.outputs.version }}
-      version: ${{ steps.kubever.outputs.version }}
+      tag: v${{ steps.kubever.outputs.fullversion }}
+      version: ${{ steps.kubever.outputs.fullversion }}
       minor_version: ${{ steps.kubever.outputs.minorversion }}
       ## Note!: prerelease (-r\d+) is used as the release id
       release_id: ${{ steps.kubever.outputs.prerelease }}
@@ -39,7 +39,7 @@ jobs:
         id: kubever
         uses: dysnix/ws-action-parse-semver@upgrade
         with:
-          string: '${{ github.event.inputs.version }}'
+          string: '${{ github.event.inputs.fullversion }}'
           extractor_regex: '${{ env.VERSION_REGEX }}'
           extractor_group: 2
       - name: Ouptuts
