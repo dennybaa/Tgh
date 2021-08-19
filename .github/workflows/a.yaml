@@ -20,7 +20,7 @@ jobs:
       - uses: hmarr/debug-action@v2
       - run: |
           echo "${{ github.ref }}"
-          echo "${{ startsWith(github.ref, 'refs/heads/devops\/refactor-pipeline') }}"
+          echo "${{ startsWith(github.ref, 'refs/heads/devops/refactor-pipeline') }}"
 #      - name: Parse semver string
 #        id: semver_parser 
 #        uses: booxmedialtd/ws-action-parse-semver@v1
