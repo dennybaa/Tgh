@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: hmarr/debug-action@v2
       - run: |
-          find /home
+          find /home | grep tgh || /bin/true
           echo "${{ github.ref }}"
           echo "${{ github.repository }}"
 
