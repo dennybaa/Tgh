@@ -7,9 +7,13 @@ jobs:
   changed:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Get specific changed files
         id: changed
         uses: tj-actions/changed-files@v13.1
+        with:
+          files: |
+            package/**
       - name: Output
         run: |
           echo 'only: ${{ steps.changed.outputs.only_changed }}'
