@@ -1,7 +1,8 @@
 name: Changed
 
 on:
-  push:
+  repository_dispatch:
+    type: [fake]
 
 jobs:
   changed:
