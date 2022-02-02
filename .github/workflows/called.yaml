@@ -5,6 +5,9 @@ on:
     inputs:
       test-bool:
         required: false
+        type: boolean
+      test-string:
+        required: false
         type: string
     outputs:
       firstword:
@@ -24,6 +27,14 @@ jobs:
       output2: ${{ steps.step2.outputs.secondword }}
     steps:
       - uses: hmarr/debug-action@v2
+      -
+        uses: actions/github-script@v5
+        name: test type
+        with:
+          script: |
+            console.log(typeof ${{ inputs.test-bool }})
+            console.log(typeof ${{ inputs.test-string }})
+            
       - run: |
           echo '${{ inputs.test-bool }}'
           find /home | grep tgh || /bin/true
