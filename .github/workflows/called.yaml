@@ -33,7 +33,7 @@ jobs:
         with:
           script: |
             console.log(typeof ${{ inputs.test-bool }})
-            console.log("${{ inputs.test-string == 'true'}}")
+            console.log("${{ inputs.test-string == true}}")
 
       - run: |
           echo '${{ inputs.test-bool }}'
