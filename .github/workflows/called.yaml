@@ -2,6 +2,10 @@ name: Reusable workflow
 
 on:
   workflow_call:
+    inputs:
+      test-bool:
+        required: false
+        type: boolean
     outputs:
       firstword:
         description: "The first output string"
@@ -21,6 +25,7 @@ jobs:
     steps:
       - uses: hmarr/debug-action@v2
       - run: |
+          echo '${{ inputs.test-bool }}'
           find /home | grep tgh || /bin/true
           echo "${{ github.ref }}"
           echo "${{ github.repository }}"
