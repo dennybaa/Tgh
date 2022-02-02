@@ -5,7 +5,7 @@ on:
 jobs:
   call:
     name: Call
-    uses: dysnix/github-workflows/.github/workflows/upstream.new-release.yaml@upstream-release
+    uses: dennybaa/Tgh/.github/workflows/called.yaml@devops/refactor-pipelines
     with:
       upstream: cloudflare/wrangler
       version-regex: v\d+
@@ -16,5 +16,4 @@ jobs:
     needs: [call]
     steps:
       - run: |
-          echo 'version: ${{ needs.call.outputs.version }}'
-          echo 'publish: ${{ needs.call.outputs.publish }}'
+          echo
