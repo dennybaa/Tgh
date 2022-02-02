@@ -5,7 +5,7 @@ on:
     inputs:
       test-bool:
         required: false
-        type: boolean
+        type: string
     outputs:
       firstword:
         description: "The first output string"
