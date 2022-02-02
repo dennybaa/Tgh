@@ -6,9 +6,7 @@ jobs:
   call:
     name: Call
     uses: dennybaa/Tgh/.github/workflows/called.yaml@devops/refactor-pipelines
-    with:
-      upstream: cloudflare/wrangler
-      version-regex: v\d+
+    with: {}
 
   output:
     name: Output
