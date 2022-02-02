@@ -33,8 +33,8 @@ jobs:
         with:
           script: |
             console.log(typeof ${{ inputs.test-bool }})
-            console.log(typeof "${{ inputs.test-string }}")
-            
+            console.log(${{ inputs.test-string == true'}})
+
       - run: |
           echo '${{ inputs.test-bool }}'
           find /home | grep tgh || /bin/true
