@@ -7,7 +7,7 @@ jobs:
     name: Call
     uses: dennybaa/Tgh/.github/workflows/called.yaml@devops/refactor-pipelines
     with:
-      test-string: 'true'
+      test-string: true
 
   output:
     name: Output
