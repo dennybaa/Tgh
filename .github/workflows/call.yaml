@@ -5,9 +5,7 @@ on:
 jobs:
   call:
     name: Call
-    uses: dennybaa/Tgh/.github/workflows/called.yaml@devops/refactor-pipelines
-    with:
-      test-string: true
+    uses: dysnix/github-workflows/.github/workflows/docker.build-and-push.yaml@switch-to-latestv2
 
   output:
     name: Output
