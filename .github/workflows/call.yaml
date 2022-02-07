@@ -14,3 +14,12 @@ jobs:
     steps:
       - run: |
           echo
+      - name: Publish status
+        id: status
+        if: always()
+        uses: actions/github-script@v5
+        with:
+          script: |
+            if (${{ job.status == 'success' }}) {
+              console.log('SUccess')
+            }
