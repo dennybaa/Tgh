@@ -18,7 +18,7 @@ jobs:
         uses: dhet/scan-docker-tags-action@v1.0.1
         with:
           image: library/alpine
-          max-age-minutes: 144000
+          max-age-minutes: 1440000
           tag-regex: 3\\.15\\.\\d+
           username: dennybaa
           password: ${{ secrets.DOCKERHUB_TOKEN }}
