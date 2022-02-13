@@ -14,12 +14,13 @@ jobs:
     steps:
       - run: |
           echo
-      - name: Publish status
-        id: status
-        if: always()
-        uses: actions/github-script@v5
+      - name: Get latest tag
+        id: latest_tag
+        uses: jacobtomlinson/gha-get-docker-hub-tags@0.1.1
         with:
-          script: |
-            if (${{ job.status == 'success' }}) {
-              console.log('SUccess')
-            }
+          org: _
+          repo: alpine
+
+      - name: Check outputs
+        run: |
+          echo "Latest Image Tag - ${{ steps.latest_tag.outputs.tag }}"
