@@ -18,7 +18,7 @@ jobs:
         id: latest_tag
         uses: jacobtomlinson/gha-get-docker-hub-tags@0.1.1
         with:
-          org: _
+          org: library
           repo: alpine
 
       - name: Check outputs
