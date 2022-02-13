@@ -20,6 +20,8 @@ jobs:
           image: library/alpine
           max-age-minutes: 1440
           tag-regex: 3\\.15\\.\\d+
+          username: dennybaa
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
         id: scan
 
       - name: Check outputs
