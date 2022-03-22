@@ -6,6 +6,8 @@ jobs:
   call:
     name: Call
     uses: ./.github/workflows/called.yaml
+    with:
+      test-bool: false
 
   output:
     name: Output
