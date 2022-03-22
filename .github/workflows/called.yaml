@@ -5,8 +5,8 @@ on:
     inputs:
       test-bool:
         required: false
-        type: boolean
-        default: 'false'
+        type: string
+        default: true
       test-string:
         required: false
         type: string
@@ -34,7 +34,7 @@ jobs:
         with:
           script: |
             console.log(typeof ${{ inputs.test-bool }})
-            console.log("${{ inputs.test-string == true}}")
+            console.log("${{ inputs.test-bool }}".toLowerCase())
             console.log("${{ inputs.test-bool == false }}")
 
       - run: |
