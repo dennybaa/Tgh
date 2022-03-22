@@ -6,7 +6,7 @@ on:
       test-bool:
         required: false
         type: boolean
-        default: false
+        default: 'false'
       test-string:
         required: false
         type: string
