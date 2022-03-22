@@ -3,9 +3,9 @@ on:
   push:
 
 jobs:
-#   call:
-#     name: Call
-#     uses: dysnix/github-workflows/.github/workflows/docker.build-and-push.yaml@switch-to-latestv2
+  call:
+    name: Call
+    uses: ./.github/workflows/called.yaml
 
   output:
     name: Output
